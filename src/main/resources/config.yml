@@ -1,0 +1,38 @@
+sql-connection:
+  # Online SQL connection, you can leave these fields empty in order to use a local DB.
+  address:
+  database:
+  username:
+  password:
+
+bot-token: "token"
+
+# Channel IDs that we want to listen to verification commands in
+channels:
+  - "id"
+
+# How long should each code take to become invalid? (seconds)
+# Default: 300
+code-expire: 300
+
+# If a player accidentally sends their code in chat, do we want to catch it?
+catch-code: true
+
+# In the verify command, should we let the user copy the whole command
+# instead of just the code?
+# Default: true
+verify-whole-command: true
+
+role-sync:
+  # Do we want to try and synchronise luckperm ranks with discord?
+  enable: true
+  server-id: 927617818525052988
+  # Map of rank name : role id
+  # E.G: admin: 929942475823530015
+  mapping:
+    donor: 929942475823530015
+    media: 927621869299990619
+
+  # How often do we update roles (seconds)
+  # Set to -1 to disable
+  rank-sync-auto: 60

@@ -1,0 +1,75 @@
+# Displayed when a player attempts something with the required permission missing.
+no-permission: "&cYou do not have permissions to execute this command"
+
+# Displayed when a player runs a command that is not recognized or with bad formatting.
+bad-usage: "&cIncorrect usage: %usage%"
+
+already-linked: "&cYou are linked to an account!"
+
+# This text will be displayed when a player runs the command
+# /verify help
+verify-help:
+  - "&7Type the command /verify"
+  - "&7Copy the code"
+  - "&7Paste in &8#verify&7 like 'verify [ingame name] [code]'"
+
+# What is displayed when the player tries to verify
+# /verify
+verify:
+  - "&7Send this in &8#verify&7:"
+  - "&8%code%"
+
+# Synchronise ranks message
+on-sync-rank: "&cYou have been given &7%role_color%%role% &con the discord."
+
+# Displayed when a player puts their verification code in chat
+# Depends on config.yml catch-code
+catch-code-message: "&cDon't share your verification code."
+
+# Sent to player when their code expires.
+on-code-expire-message: true
+on-code-expire: "&cYour code has expired. Run /verify for a new one."
+
+# Sent to player when their account has been linked.
+on-verify:
+  - ""
+  - "       &cDiscord account linked!"
+  - ""
+
+# Discord messages
+discord:
+  verify-help:
+    title: "Verification Help"
+    description: "Log onto the server\nType **/verify** and copy the code\nRun it here in the format:\n**verify [ingame name] [code]**"
+    image: "https://icon-library.com/images/failed-icon/failed-icon-7.jpg"
+
+  verified-accounts:
+    title: "Linked accounts"
+    description: "**Your accounts:**\n%accounts%"
+    description-empty: "You don't have any accounts linked."
+    format: "- %name%"
+
+  verify-unlink:
+    incorrect:
+      title: "Oops!"
+      description: "It doesn't look like we could unlink that account.\nYou might not be linked in the first place!"
+      image: "https://cdn-icons-png.flaticon.com/512/463/463612.png"
+    success:
+      title: "Success!"
+      description: "You have unlinked the account:\n%account%"
+      image: "https://cdn-icons-png.flaticon.com/512/845/845646.png"
+
+  verify:
+    incorrect:
+      title: "Oops!"
+      description: "We couldn't verify this account!\nPlease make sure you are **logged on** and using the correct code."
+      image: "https://cdn-icons-png.flaticon.com/512/463/463612.png"
+    success:
+      title: "Success!"
+      description: "You are now linked to the account:\n%account%"
+      image: "https://cdn-icons-png.flaticon.com/512/845/845646.png"
+    already-linked:
+      title: "Oops!"
+      description: "It looks like that account is already linked to an discord account!"
+      image: "https://cdn-icons-png.flaticon.com/512/463/463612.png"
+
