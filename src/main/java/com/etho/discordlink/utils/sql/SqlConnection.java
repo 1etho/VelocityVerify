@@ -79,14 +79,12 @@ public class SqlConnection {
         return null;
     }
 
-    public static List<String> getVerifiedUsernames(UUID id) {
+    public static String getVerifiedUsername(UUID id) {
         try {
             ResultSet rs = instance.statement.executeQuery("select * from verified where uuid = '" + id.toString() + "'");
-            List<String> names = new ArrayList<>();
-            while (rs.next()) {
-                names.add(rs.getString("username"));
+            if (rs.next()) {
+                return rs.getString("username");
             }
-            return names;
         } catch (SQLException e) {
             e.printStackTrace();
         }

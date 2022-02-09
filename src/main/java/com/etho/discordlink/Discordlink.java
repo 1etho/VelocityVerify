@@ -2,6 +2,7 @@ package com.etho.discordlink;
 
 import com.etho.discordlink.command.VerifyCommand;
 import com.etho.discordlink.listener.ChatListener;
+import com.etho.discordlink.listener.JoinLeaveListener;
 import com.etho.discordlink.utils.Config;
 import com.etho.discordlink.utils.DependencyChecker;
 import com.etho.discordlink.utils.discord.DiscordConnection;
@@ -65,6 +66,7 @@ public class Discordlink {
         SqlConnection.init();
         new DiscordConnection().init();
         server.getEventManager().register(this, new ChatListener());
+        server.getEventManager().register(this, new JoinLeaveListener());
         server.getCommandManager().register("verify", new VerifyCommand());
         repeating();
     }
