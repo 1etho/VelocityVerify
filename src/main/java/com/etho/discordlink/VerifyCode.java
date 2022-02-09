@@ -9,6 +9,7 @@ import com.etho.discordlink.utils.discord.RoleSynchronization;
 import com.etho.discordlink.utils.sql.SqlConnection;
 import com.loohp.interactivechat.libs.org.apache.commons.lang3.RandomStringUtils;
 import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.event.ClickEvent;
 
 import java.lang.management.PlatformLoggingMXBean;
 import java.nio.charset.Charset;
@@ -71,11 +72,20 @@ public class VerifyCode {
             p.sendMessage(Chat.color(line));
         }
         if (Config.DEFAULT.getBoolean("role-sync.enable")) {
-            RoleSynchronization.update(p, tag);
+            RoleSynchronization.update(p, tag, true);
         }
         if (Config.DEFAULT.getString("verify-role") != null) {
-            DiscordConnection.get().getJda().getGuildById(Config.DEFAULT.getLong("role-sync.server-id"))
+            DiscordConnection.get().getJda()
+                    .getGuildById(Config.DEFAULT.getLong("role-sync.server-id"))
                     .addRoleToMember(tag, DiscordConnection.get().getJda().getRoleById(Config.DEFAULT.getString("verify-role"))).queue();
+        }
+        if (Config.MESSAGES.getString("broadcast-verification") != null) {
+            for (Player p : Discordlink.server().getAllPlayers()) {
+                p.sendMessage(Chat.color(Config.MESSAGES.getString("broadcast-verification")
+                        .replace("%username%", this.player)
+                        .replace("%player%", this.player))
+                        .clickEvent(ClickEvent.suggestCommand("/verify")));
+            }
         }
     }
 

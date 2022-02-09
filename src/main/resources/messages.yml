@@ -22,6 +22,10 @@ verify:
 # Synchronise ranks message
 on-sync-rank: "&cYou have been given &7%role_color%%role% &con the discord."
 
+# Do we want to announce when a player verifies their account
+# Remove the value to disable
+broadcast-verification: "&c%player% verified their account with /verify"
+
 # Displayed when a player puts their verification code in chat
 # Depends on config.yml catch-code
 catch-code-message: "&cDon't share your verification code."
@@ -60,7 +64,7 @@ discord:
       image: "https://cdn-icons-png.flaticon.com/512/845/845646.png"
 
   verify:
-    incorrect:
+    failure:
       title: "Oops!"
       description: "We couldn't verify this account!\nPlease make sure you are **logged on** and using the correct code."
       image: "https://cdn-icons-png.flaticon.com/512/463/463612.png"

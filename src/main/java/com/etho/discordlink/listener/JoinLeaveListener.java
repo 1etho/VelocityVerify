@@ -19,7 +19,7 @@ public class JoinLeaveListener {
             if (!p.getUsername().equals(name)) {
                 SqlConnection.updateUsername(name, p.getUsername());
             }
-            RoleSynchronization.update(p, SqlConnection.getVerifiedDiscord(p.getUniqueId()));
+            RoleSynchronization.update(p, SqlConnection.getVerifiedDiscord(p.getUniqueId()), true);
         }
     }
 }

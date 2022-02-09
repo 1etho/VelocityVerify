@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
@@ -27,34 +28,32 @@ public class RoleSynchronization {
             if (dc != null) {
                 CachedMetaData data = adapter.getUser(p).getCachedData().getMetaData();
                 String group = data.getPrimaryGroup();
-                update(p, group, dc);
+                update(p, group, Long.parseLong(dc), false);
             }
         }
     }
 
-    public static void update(Player p, String discordId) {
+    public static void update(Player p, String discordId, boolean tell) {
         PlayerAdapter<Player> adapter = LuckPermsProvider.get().getPlayerAdapter(Player.class);
         if (p.isActive()) {
             CachedMetaData data = adapter.getUser(p).getCachedData().getMetaData();
             String group = data.getPrimaryGroup();
-            update(p, group, discordId);
+            update(p, group, Long.parseLong(discordId), tell);
         }
     }
 
-    public static void update(Player p, String group, String discordId) {
+    public static void update(Player p, String group, long discordId, boolean tell) {
         if (Config.DEFAULT.get("role-sync.mapping." + group) != null) {
             String roleId = Config.DEFAULT.getString("role-sync.mapping." + group);
-            Role r = DiscordConnection.get().getJda().getRoleById(roleId);
+            Role r = DiscordConnection.get().getJda().getRoleById(Long.parseLong(roleId));
             Guild g = DiscordConnection.get().getJda().getGuildById(Config.DEFAULT.getLong("role-sync.server-id"));
-            User u = DiscordConnection.get().getJda().getUserById(discordId);
-            Member m = g.getMemberById(discordId);
-            update(p, r, m, g);
+            update(p, r, discordId, g, tell);
         }
     }
 
-    public static void update(Player p, Role role, Member member, Guild guild) {
-        guild.addRoleToMember(member, role).queue();
-        if (p != null) {
+    public static void update(Player p, Role role, long discordId, Guild guild, boolean tell) {
+        guild.addRoleToMember(discordId, role).complete();
+        if (p != null && tell) {
             p.sendMessage(Chat.color(Config.MESSAGES.getString("on-sync-rank")
                     .replace("%rank%", role.getName())
                     .replace("%role%", role.getName())

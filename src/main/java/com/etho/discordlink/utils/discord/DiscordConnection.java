@@ -96,6 +96,13 @@ public class DiscordConnection extends ListenerAdapter {
                                             return;
                                         }
                                     }
+                                } else {
+                                    message.reply(new EmbedBuilder()
+                                            .setTitle(config.getString("discord.verify-unlink.incorrect.title"))
+                                            .setDescription(config.getString("discord.verify-unlink.incorrect.description")
+                                                    .replace("%account%", name))
+                                            .setThumbnail(config.getString("discord.verify-unlink.incorrect.image"))
+                                            .build()).queue();
                                 }
                             }
                             break;
