@@ -42,27 +42,50 @@ public class RoleSynchronization {
     }
 
     public static void update(Player p, String group, String discordId) {
-        if (Config.DEFAULT.getString("role-sync.mapping." + group) != null) {
-            long roleid = Config.DEFAULT.getLong("role-sync.mapping."+group);
-            Role r = DiscordConnection.get().getJda().getRoleById(roleid);
-            User u = DiscordConnection.get().getJda().getUserById(discordId);
+        if (Config.DEFAULT.get("role-sync.mapping." + group) != null) {
+            String roleId = Config.DEFAULT.getString("role-sync.mapping." + group);
+            Role r = DiscordConnection.get().getJda().getRoleById(roleId);
             Guild g = DiscordConnection.get().getJda().getGuildById(Config.DEFAULT.getLong("role-sync.server-id"));
-            if (u != null) {
-                if (g != null) {
-                    if (g.getMember(u) != null) {
-                        if (!(g.getMember(u).getRoles().stream().map(Role::getId).collect(Collectors.toList()).contains(r.getId()))) {
-                            g.addRoleToMember(g.getMember(u), r).queue();
-                            if (p.isOnlineMode()) {
-                                System.out.println(5);
-                                p.sendMessage(Chat.color(Config.MESSAGES.getString("on-sync-rank")
-                                        .replace("%rank%", r.getName())
-                                        .replace("%role%", r.getName())
-                                        .replace("%role_color%", ("&#" + Integer.toHexString(r.getColor().getRGB()).substring(2)))));
-                            }
-                        }
-                    }
-                }
-            }
+            User u = DiscordConnection.get().getJda().getUserById(discordId);
+            Member m = g.getMemberById(discordId);
+            update(p, r, m, g);
         }
     }
+
+    public static void update(Player p, Role role, Member member, Guild guild) {
+        guild.addRoleToMember(member, role).queue();
+        if (p != null) {
+            p.sendMessage(Chat.color(Config.MESSAGES.getString("on-sync-rank")
+                    .replace("%rank%", role.getName())
+                    .replace("%role%", role.getName())
+                    .replace("%role_color%", ("&#" + Integer.toHexString(role.getColor().getRGB()).substring(2)))));
+        }
+    }
+
+//    public static void update(Player p, String group, String discordId) {
+//        System.out.println("debug: " + p.getUsername() + " -> " + group);
+//        if (Config.DEFAULT.getString("role-sync.mapping." + group) != null) {
+//            long roleid = Config.DEFAULT.getLong("role-sync.mapping."+group);
+//            Role r = DiscordConnection.get().getJda().getRoleById(roleid);
+//            User u = DiscordConnection.get().getJda().getUserById(discordId);
+//            Guild g = DiscordConnection.get().getJda().getGuildById(Config.DEFAULT.getLong("role-sync.server-id"));
+//            if (u != null) {
+//                if (g != null) {
+//                    if (g.getMember(u) != null) {
+//                        if (!(g.getMember(u).getRoles().stream().map(Role::getId).collect(Collectors.toList()).contains(r.getId()))) {
+//                            g.addRoleToMember(g.getMember(u), r).queue();
+//                            if (p.isOnlineMode()) {
+//                                System.out.println(5);
+//                                p.sendMessage(Chat.color(Config.MESSAGES.getString("on-sync-rank")
+//                                        .replace("%rank%", r.getName())
+//                                        .replace("%role%", r.getName())
+//                                        .replace("%role_color%", ("&#" + Integer.toHexString(r.getColor().getRGB()).substring(2)))));
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 }

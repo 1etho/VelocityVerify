@@ -15,6 +15,9 @@ channels:
 # Default: 300
 code-expire: 300
 
+# Do we want to give a special role to the player when they have verified
+verify-role:
+
 # If a player accidentally sends their code in chat, do we want to catch it?
 catch-code: true
 

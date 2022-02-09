@@ -4,6 +4,7 @@ import com.etho.discordlink.eventhandler.VerifyEvents;
 import com.etho.discordlink.eventhandler.events.VerifySuccessEvent;
 import com.etho.discordlink.utils.Chat;
 import com.etho.discordlink.utils.Config;
+import com.etho.discordlink.utils.discord.DiscordConnection;
 import com.etho.discordlink.utils.discord.RoleSynchronization;
 import com.etho.discordlink.utils.sql.SqlConnection;
 import com.loohp.interactivechat.libs.org.apache.commons.lang3.RandomStringUtils;
@@ -71,6 +72,10 @@ public class VerifyCode {
         }
         if (Config.DEFAULT.getBoolean("role-sync.enable")) {
             RoleSynchronization.update(p, tag);
+        }
+        if (Config.DEFAULT.getString("verify-role") != null) {
+            DiscordConnection.get().getJda().getGuildById(Config.DEFAULT.getLong("role-sync.server-id"))
+                    .addRoleToMember(tag, DiscordConnection.get().getJda().getRoleById(Config.DEFAULT.getString("verify-role"))).queue();
         }
     }
 
