@@ -31,17 +31,20 @@ The plugin is able to handle multiple accounts to one user, as well as unlinking
 > `rank-sync-auto: {int}` How often shall we automatically sync roles (seconds) 
 > `-1` will disable it.
 
->####Other
+> #### Other
+> 
 > `code-expire: {int}` How long should a code take to expire (seconds)
 > 
 > `catch-code: {boolean}` If the player sends their verification code in chat, should we catch it?
 > 
 > `verify-whole-command: {boolean}` When a player clicks the `%code%`, should we make them copy the command or just the code
 
->####Remote SQL
+> #### Remote SQL
+> 
 > Take a look at LuckPerms documentation, we function similarly, though we will be using sqlite.
 ---
->####API
+> #### API
+> 
 >The plugin has some features such as an event system, that supports:
 > 
 > `VerifySuccessEvent`, `VerifyFailEvent` and `CodeExpireEvent`
