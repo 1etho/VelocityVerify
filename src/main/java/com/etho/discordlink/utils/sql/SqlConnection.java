@@ -16,7 +16,7 @@ public class SqlConnection {
         if (instance == null) {
             instance = new SqlConnection();
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName("org.sqlite.JDBC");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
