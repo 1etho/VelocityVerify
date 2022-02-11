@@ -150,7 +150,7 @@ public class DiscordConnection extends ListenerAdapter {
                                                         .setThumbnail(config.getString("discord.verify.success.image"))
                                                         .build()).queue();
                                                 VerifyEvents.fire(new VerifySuccessEvent(c, e));
-                                                break;
+                                                return;
                                             case INCORRECT: case EXPIRED:
                                                 message.reply(new EmbedBuilder()
                                                         .setTitle(config.getString("discord.verify.failure.title"))
@@ -165,6 +165,12 @@ public class DiscordConnection extends ListenerAdapter {
                                         verifyHelp(sender, message, channel);
                                     }
                                 }
+                                message.reply(new EmbedBuilder()
+                                        .setTitle(config.getString("discord.verify.failure.title"))
+                                        .setDescription(config.getString("discord.verify.failure.description")
+                                                .replace("%account%", name))
+                                        .setThumbnail(config.getString("discord.verify.failure.image"))
+                                        .build()).queue();
                                 VerifyEvents.fire(new VerifyFailEvent(null, e));
                             } else {
                                 verifyHelp(sender, message, channel);

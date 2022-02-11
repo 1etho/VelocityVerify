@@ -115,6 +115,14 @@ public class Discordlink {
         instance.codes.remove(code);
     }
 
+    public static void removeAll(String playername) {
+        for (VerifyCode code : new ArrayList<>(instance.codes)) {
+            if (code.getPlayerName().equals(playername)) {
+                remove(code);
+            }
+        }
+    }
+
     public static void remove(String playerName) {
         for (VerifyCode code : getCodes()) {
             if (code.getPlayerName().equalsIgnoreCase(playerName)) {

@@ -55,7 +55,7 @@ public class VerifyCode {
             if (codeAttempt.equals(code)) {
                 //LINK DISCORD AND MC ACCOUNT
                 verify(tag);
-                Discordlink.remove(this);
+                Discordlink.removeAll(this.player);
                 return Result.SUCCESS;
             } else {
                 return Result.INCORRECT;

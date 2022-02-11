@@ -6,6 +6,7 @@ import com.etho.discordlink.utils.Chat;
 import com.etho.discordlink.utils.Config;
 import com.etho.discordlink.utils.discord.DiscordConnection;
 import com.etho.discordlink.utils.sql.SqlConnection;
+import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
@@ -58,7 +59,7 @@ public class VerifyCommand implements SimpleCommand {
                     }
                     for (VerifyCode c : new ArrayList<>(Discordlink.getCodes())) {
                         if (c.getPlayerName().equals(p.getUsername())) {
-                            Discordlink.remove(c);
+                            Discordlink.removeAll(c.getPlayerName());
                         }
                     }
                     String code = VerifyCode.generate();
@@ -87,7 +88,16 @@ public class VerifyCommand implements SimpleCommand {
 
     @Override
     public List<String> suggest(Invocation invocation) {
-        return SimpleCommand.super.suggest(invocation);
+        String[] args = invocation.arguments();
+        if (invocation.source().hasPermission("verify.command")) {
+            if (args.length == 1) {
+                List<String> c = new ArrayList<>();
+                if ("reload".startsWith(args[0].toLowerCase()) && invocation.source().hasPermission("verify.command.reload")) c.add("reload");
+                if ("help".startsWith(args[0].toLowerCase()) && invocation.source().hasPermission("verify.command.help")) c.add("help");
+                return c;
+            }
+        }
+        return ImmutableList.of();
     }
 
     public void showHelp(Player p) {
